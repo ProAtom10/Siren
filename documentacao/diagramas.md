@@ -1,86 +1,26 @@
-
 ```mermaid
-classDiagram
-    class Usuaria {
-        +int id
-        +String nome
-        +String telefone
-        +String senhaHash
-        +cadastrarContato()
-        +configurarComando()
-        +acionarAlerta()
-    }
-
-    class ContatoConfianca {
-        +int id
-        +String nome
-        +String telefone
-        +String parentesco
-        +receberAlerta()
-    }
-
-    class InterfaceCamuflada {
-        <<abstract>>
-        +String nomeExibido
-        +exibir()
-        +detectarComando()
-    }
-    class Calculadora {
-        +calcular()
-    }
-    class BlocoNotas {
-        +salvarNota()
-    }
-    class LembreteAgua {
-        +agendarLembrete()
-    }
-
-    class ComandoOculto {
-        +String tipo
-        +String sequencia
-        +validar()
-    }
-
-    class Alerta {
-        +int id
-        +DateTime dataHora
-        +String status
-        +gerar()
-        +cancelar()
-    }
-
-    class Localizacao {
-        +double latitude
-        +double longitude
-        +DateTime capturadaEm
-        +obterAtual()
-    }
-
-    class Viatura {
-        +int id
-        +String prefixo
-        +String status
-        +receberChamado()
-        +confirmarAtendimento()
-    }
-
-    class ServicoNotificacao {
-        +enviarParaContatos(Alerta)
-        +acionarViaturas(Alerta)
-        +enviarSMSContingencia(Alerta)
-    }
-
-    InterfaceCamuflada <|-- Calculadora
-    InterfaceCamuflada <|-- BlocoNotas
-    InterfaceCamuflada <|-- LembreteAgua
-
-    Usuaria "1" --> "1..*" ContatoConfianca : cadastra
-    Usuaria "1" --> "1" InterfaceCamuflada : escolhe
-    Usuaria "1" --> "1" ComandoOculto : configura
-    InterfaceCamuflada ..> ComandoOculto : detecta
-    ComandoOculto "1" --> "0..*" Alerta : dispara
-    Alerta "1" --> "1" Localizacao : contém
-    Alerta ..> ServicoNotificacao : usa
-    ServicoNotificacao ..> ContatoConfianca : notifica
-    ServicoNotificacao ..> Viatura : aciona
+flowchart TD
+    A([Início]) --> B[Usuária abre o app camuflado]
+    B --> C[Usa a interface normal<br/>calculadora / notas / lembrete]
+    C --> D{Comando oculto<br/>digitado?}
+    D -- Não --> C
+    D -- Sim --> E[Validar comando]
+    E --> F{Comando válido?}
+    F -- Não --> C
+    F -- Sim --> G[Capturar localização e dados]
+    G --> H{Possui internet?}
+    H -- Sim --> I[Enviar alerta pela rede]
+    H -- Não --> J[Enviar SMS de contingência]
+    I --> K[Notificar contatos de confiança]
+    I --> L[Acionar viaturas disponíveis]
+    J --> K
+    K --> M[Manter tela camuflada<br/>sem notificação visível]
+    L --> M
+    L --> N[Viatura confirma atendimento]
+    N --> O[Atualizar status do alerta]
+    M --> P{Cancelamento<br/>discreto?}
+    P -- Sim --> Q[Cancelar e avisar contatos]
+    P -- Não --> O
+    Q --> R([Fim])
+    O --> R
 ```
