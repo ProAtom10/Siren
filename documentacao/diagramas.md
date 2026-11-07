@@ -14,18 +14,15 @@ erDiagram
     }
     CONTATO_CONFIANCA {
         int id 
-        int usuaria_id 
         string nome
         string telefone
     }
     COMANDO_OCULTO {
         int id 
-        int usuaria_id 
         string sequencia_hash
     }
     ALERTA {
         int id 
-        int usuaria_id 
         datetime data_hora
         float latitude
         float longitude
