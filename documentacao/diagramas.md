@@ -37,4 +37,15 @@ classDiagram
         +confirmarAtendimento()
     }
 
-    Usuaria "1" --> "1..*"
+    Usuaria "1" --> "1..*" ContatoConfianca : cadastra
+    Usuaria "1" --> "1" ComandoOculto : configura
+    ComandoOculto "1" --> "0..*" Alerta : dispara
+    Alerta "1" --> "1..*" ContatoConfianca : notifica
+    Alerta "1" --> "0..*" Viatura : aciona
+
+    style Usuaria fill:#800020,stroke:#5A0016,color:#FFFFFF
+    style ContatoConfianca fill:#800020,stroke:#5A0016,color:#FFFFFF
+    style ComandoOculto fill:#800020,stroke:#5A0016,color:#FFFFFF
+    style Alerta fill:#800020,stroke:#5A0016,color:#FFFFFF
+    style Viatura fill:#800020,stroke:#5A0016,color:#FFFFFF
+```
