@@ -1,36 +1,44 @@
 ```mermaid
-erDiagram
-    USUARIA ||--|{ CONTATO_CONFIANCA : possui
-    USUARIA ||--|| COMANDO_OCULTO : configura
-    USUARIA ||--o{ ALERTA : dispara
-    ALERTA }o--o{ CONTATO_CONFIANCA : notifica
-    ALERTA }o--o{ VIATURA : aciona
+classDiagram
+    class Usuaria {
+        +int id
+        +String nome
+        +String telefone
+        +String interfaceCamuflada
+        +cadastrarContato()
+        +acionarAlerta()
+    }
 
-    USUARIA {
-        int id 
-        string nome
-        string telefone
-        string interface_camuflada
+    class ContatoConfianca {
+        +int id
+        +String nome
+        +String telefone
+        +receberAlerta()
     }
-    CONTATO_CONFIANCA {
-        int id 
-        string nome
-        string telefone
+
+    class ComandoOculto {
+        +String sequencia
+        +validar()
     }
-    COMANDO_OCULTO {
-        int id 
-        string sequencia_hash
+
+    class Alerta {
+        +int id
+        +DateTime dataHora
+        +double latitude
+        +double longitude
+        +String status
+        +cancelar()
     }
-    ALERTA {
-        int id 
-        datetime data_hora
-        float latitude
-        float longitude
-        string status
+
+    class Viatura {
+        +int id
+        +String prefixo
+        +confirmarAtendimento()
     }
-    VIATURA {
-        int id 
-        string prefixo
-        string status
-    }
+
+    Usuaria "1" --> "1..*" ContatoConfianca : cadastra
+    Usuaria "1" --> "1" ComandoOculto : configura
+    ComandoOculto "1" --> "0..*" Alerta : dispara
+    Alerta "1" --> "1..*" ContatoConfianca : notifica
+    Alerta "1" --> "0..*" Viatura : aciona
 ```
