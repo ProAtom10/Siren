@@ -1,26 +1,39 @@
 ```mermaid
-flowchart TD
-    A([Início]) --> B[Usuária abre o app camuflado]
-    B --> C[Usa a interface normal<br/>calculadora / notas / lembrete]
-    C --> D{Comando oculto<br/>digitado?}
-    D -- Não --> C
-    D -- Sim --> E[Validar comando]
-    E --> F{Comando válido?}
-    F -- Não --> C
-    F -- Sim --> G[Capturar localização e dados]
-    G --> H{Possui internet?}
-    H -- Sim --> I[Enviar alerta pela rede]
-    H -- Não --> J[Enviar SMS de contingência]
-    I --> K[Notificar contatos de confiança]
-    I --> L[Acionar viaturas disponíveis]
-    J --> K
-    K --> M[Manter tela camuflada<br/>sem notificação visível]
-    L --> M
-    L --> N[Viatura confirma atendimento]
-    N --> O[Atualizar status do alerta]
-    M --> P{Cancelamento<br/>discreto?}
-    P -- Sim --> Q[Cancelar e avisar contatos]
-    P -- Não --> O
-    Q --> R([Fim])
-    O --> R
+erDiagram
+    USUARIA ||--|{ CONTATO_CONFIANCA : possui
+    USUARIA ||--|| COMANDO_OCULTO : configura
+    USUARIA ||--o{ ALERTA : dispara
+    ALERTA }o--o{ CONTATO_CONFIANCA : notifica
+    ALERTA }o--o{ VIATURA : aciona
+
+    USUARIA {
+        int id PK
+        string nome
+        string telefone
+        string interface_camuflada
+    }
+    CONTATO_CONFIANCA {
+        int id PK
+        int usuaria_id FK
+        string nome
+        string telefone
+    }
+    COMANDO_OCULTO {
+        int id PK
+        int usuaria_id FK
+        string sequencia_hash
+    }
+    ALERTA {
+        int id PK
+        int usuaria_id FK
+        datetime data_hora
+        float latitude
+        float longitude
+        string status
+    }
+    VIATURA {
+        int id PK
+        string prefixo
+        string status
+    }
 ```
