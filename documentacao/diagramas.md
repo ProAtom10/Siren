@@ -1,44 +1,14 @@
 ```mermaid
-classDiagram
-    class Usuaria {
-        +int id
-        +String nome
-        +String telefone
-        +String interfaceCamuflada
-        +cadastrarContato()
-        +acionarAlerta()
-    }
-
-    class ContatoConfianca {
-        +int id
-        +String nome
-        +String telefone
-        +receberAlerta()
-    }
-
-    class ComandoOculto {
-        +String sequencia
-        +validar()
-    }
-
-    class Alerta {
-        +int id
-        +DateTime dataHora
-        +double latitude
-        +double longitude
-        +String status
-        +cancelar()
-    }
-
-    class Viatura {
-        +int id
-        +String prefixo
-        +confirmarAtendimento()
-    }
-
-    Usuaria "1" --> "1..*" ContatoConfianca : cadastra
-    Usuaria "1" --> "1" ComandoOculto : configura
-    ComandoOculto "1" --> "0..*" Alerta : dispara
-    Alerta "1" --> "1..*" ContatoConfianca : notifica
-    Alerta "1" --> "0..*" Viatura : aciona
+flowchart TD
+    A([Início]) --> B[Usuária usa o app camuflado]
+    B --> C{Digitou o<br/>comando oculto?}
+    C -- Não --> B
+    C -- Sim --> D[Registrar localização e dados]
+    D --> E[Notificar contatos de confiança]
+    D --> F[Acionar viaturas disponíveis]
+    E --> G[Contatos recebem o alerta]
+    F --> H[Viatura confirma atendimento]
+    G --> I[App continua camuflado]
+    H --> I
+    I --> J([Fim])
 ```
