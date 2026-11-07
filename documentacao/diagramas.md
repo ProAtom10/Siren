@@ -1,7 +1,6 @@
 ```mermaid
 flowchart LR
     Usuaria([" Usuária<br/>(vítima)"])
-    Contato([" Contato de<br/>confiança"])
     Viatura([" Viatura /<br/>Delegacia de policia"])
 
     subgraph Sistema["AppSiren"]
