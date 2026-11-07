@@ -7,32 +7,32 @@ erDiagram
     ALERTA }o--o{ VIATURA : aciona
 
     USUARIA {
-        int id PK
+        int id 
         string nome
         string telefone
         string interface_camuflada
     }
     CONTATO_CONFIANCA {
-        int id PK
-        int usuaria_id FK
+        int id 
+        int usuaria_id 
         string nome
         string telefone
     }
     COMANDO_OCULTO {
-        int id PK
-        int usuaria_id FK
+        int id 
+        int usuaria_id 
         string sequencia_hash
     }
     ALERTA {
-        int id PK
-        int usuaria_id FK
+        int id 
+        int usuaria_id 
         datetime data_hora
         float latitude
         float longitude
         string status
     }
     VIATURA {
-        int id PK
+        int id 
         string prefixo
         string status
     }
