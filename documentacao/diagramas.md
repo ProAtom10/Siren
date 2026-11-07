@@ -1,5 +1,5 @@
 ```mermaid
-%%{init: {'theme':'base','themeVariables':{'background':'#FADBD8','primaryColor':'#800020','primaryTextColor':'#FFFFFF','primaryBorderColor':'#5A0016','lineColor':'#5A0016','clusterBkg':'#F5B7B1','clusterBorder':'#800020','edgeLabelBackground':'#FADBD8','titleColor':'#5A0016'}}}%%
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#800020','primaryTextColor':'#FFFFFF','primaryBorderColor':'#5A0016','lineColor':'#888888','clusterBorder':'#800020'}}}%%
 flowchart LR
     Usuaria(["Usuária<br/>(vítima)"])
     Contato(["Contato de<br/>confiança"])
