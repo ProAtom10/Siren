@@ -1,35 +1,86 @@
+
 ```mermaid
-flowchart LR
-    Usuaria([" Usuária<br/>(vítima)"])
-    Contato([" Contato de<br/>confiança"])
-    Viatura([" Viatura /<br/>Delegacia de policia"])
+classDiagram
+    class Usuaria {
+        +int id
+        +String nome
+        +String telefone
+        +String senhaHash
+        +cadastrarContato()
+        +configurarComando()
+        +acionarAlerta()
+    }
 
-    subgraph Sistema["AppSiren"]
-        UC1(["Usar interface camuflada<br/>(calculadora, notas, lembrete de água)"])
-        UC2(["Cadastrar contatos de confiança"])
-        UC3(["Configurar comando oculto"])
-        UC4(["Acionar comando oculto"])
-        UC5(["Registrar localização e dados da vítima"])
-        UC6(["Notificar contatos de confiança"])
-        UC7(["Acionar viaturas disponíveis"])
-        UC8(["Receber alerta de emergência"])
-        UC9(["Confirmar atendimento"])
-    end
+    class ContatoConfianca {
+        +int id
+        +String nome
+        +String telefone
+        +String parentesco
+        +receberAlerta()
+    }
 
-    Usuaria --- UC1
-    Usuaria --- UC2
-    Usuaria --- UC3
-    Usuaria --- UC4
+    class InterfaceCamuflada {
+        <<abstract>>
+        +String nomeExibido
+        +exibir()
+        +detectarComando()
+    }
+    class Calculadora {
+        +calcular()
+    }
+    class BlocoNotas {
+        +salvarNota()
+    }
+    class LembreteAgua {
+        +agendarLembrete()
+    }
 
-    UC4 -. "«include»" .-> UC5
-    UC4 -. "«include»" .-> UC6
-    UC4 -. "«include»" .-> UC7
-    UC4 -. "«extend»" .-> UC1
+    class ComandoOculto {
+        +String tipo
+        +String sequencia
+        +validar()
+    }
 
-    UC6 --- Contato
-    UC8 --- Contato
-    UC7 --- Viatura
-    UC9 --- Viatura
-    UC6 -. "«include»" .-> UC8
-    UC7 -. "«include»" .-> UC9
+    class Alerta {
+        +int id
+        +DateTime dataHora
+        +String status
+        +gerar()
+        +cancelar()
+    }
+
+    class Localizacao {
+        +double latitude
+        +double longitude
+        +DateTime capturadaEm
+        +obterAtual()
+    }
+
+    class Viatura {
+        +int id
+        +String prefixo
+        +String status
+        +receberChamado()
+        +confirmarAtendimento()
+    }
+
+    class ServicoNotificacao {
+        +enviarParaContatos(Alerta)
+        +acionarViaturas(Alerta)
+        +enviarSMSContingencia(Alerta)
+    }
+
+    InterfaceCamuflada <|-- Calculadora
+    InterfaceCamuflada <|-- BlocoNotas
+    InterfaceCamuflada <|-- LembreteAgua
+
+    Usuaria "1" --> "1..*" ContatoConfianca : cadastra
+    Usuaria "1" --> "1" InterfaceCamuflada : escolhe
+    Usuaria "1" --> "1" ComandoOculto : configura
+    InterfaceCamuflada ..> ComandoOculto : detecta
+    ComandoOculto "1" --> "0..*" Alerta : dispara
+    Alerta "1" --> "1" Localizacao : contém
+    Alerta ..> ServicoNotificacao : usa
+    ServicoNotificacao ..> ContatoConfianca : notifica
+    ServicoNotificacao ..> Viatura : aciona
 ```
